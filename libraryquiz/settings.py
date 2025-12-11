@@ -1,13 +1,21 @@
 from pathlib import Path
 import os
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'bouhrichmanal@gmail.com'
+EMAIL_HOST_PASSWORD = 'aakw qmou ikkl tghu'
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'replace-this-with-a-secure-key-for-production'
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ 'bouhrichmanal.pythonanywhere.com', ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -46,7 +54,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                    
+
       # ... autres context processors ...
         'core.context_processors.current_year',
             ],
@@ -80,6 +88,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'core' / 'static']
 
+STATIC_ROOT = '/home/bouhrichmanal/libraryquiz/static/'   # ← très important
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -93,5 +104,5 @@ LOGIN_REDIRECT_URL = 'core:dashboard'  # ← remplace par le nom de ta vue dashb
 LOGOUT_REDIRECT_URL = 'core:home'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = '/home/bouhrichmanal/libraryquiz/media/'
 
