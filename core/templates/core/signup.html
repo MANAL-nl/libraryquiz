@@ -1,0 +1,148 @@
+{% extends 'core/base.html' %}
+
+{% block title %}S'inscrire — LibraryQuiz{% endblock %}
+
+{% block content %}
+
+<style>
+.register-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background-color: #f4f6f9;
+}
+
+.register-card {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 420px;
+}
+
+.register-title {
+    font-weight: 700;
+    color: #0d6efd;
+}
+
+.register-form .form-control {
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+.register-form .form-control:focus {
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+}
+
+.form-group-modern {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: #6c757d;
+    user-select: none;
+}
+
+.register-form .btn {
+    border-radius: 50px;
+    font-weight: 600;
+    padding: 10px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+.register-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.register-card a.link-primary {
+    text-decoration: none;
+}
+.register-card a.link-primary:hover {
+    text-decoration: underline;
+}
+</style>
+
+<div class="register-wrapper">
+    <div class="register-card">
+
+        <h2 class="text-center register-title mb-3">Créer un compte</h2>
+        <p class="text-center text-muted mb-4">Rejoignez LibraryQuiz et commencez votre aventure 📚</p>
+
+        {% if messages %}
+            {% for m in messages %}
+                <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" class="register-form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="mb-3 form-group-modern">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="mb-3 form-group-modern">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="mb-3 form-group-modern">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+                <i class="bi bi-eye password-toggle"></i>
+            </div>
+
+            <div class="mb-3 form-group-modern">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+                <i class="bi bi-eye password-toggle"></i>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-2">
+                S'inscrire
+            </button>
+        </form>
+
+        <p class="mt-4 text-center text-muted">
+            Déjà un compte ?
+            <a href="{% url 'login' %}" class="link-primary">Se connecter</a>
+        </p>
+
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.password-toggle').forEach(function(toggle) {
+    toggle.addEventListener('click', function() {
+        const input = this.previousElementSibling;
+        if (input.type === "password") {
+            input.type = "text";
+            this.classList.remove('bi-eye');
+            this.classList.add('bi-eye-slash');
+        } else {
+            input.type = "password";
+            this.classList.remove('bi-eye-slash');
+            this.classList.add('bi-eye');
+        }
+    });
+});
+</script>
+
+{% endblock %}

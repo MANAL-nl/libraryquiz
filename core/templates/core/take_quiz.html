@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ quiz.title }} — LibraryQuiz{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <h2 class="text-center mb-4 fw-bold text-primary">{{ quiz.title }}</h2>
+
+    <!-- Alerte si déjà réussi -->
+    {% if already_passed %}
+    <div class="alert alert-warning text-center fw-bold">
+        ⚠ Vous avez déjà réussi ce quiz — votre score ne sera pas enregistré si vous le refaites.
+    </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% for question in quiz.questions.all %}
+        <div class="card mb-4 shadow-sm quiz-question-card">
+            <div class="card-body">
+                <p class="fw-bold mb-3">{{ forloop.counter }}. {{ question.text }}</p>
+                {% for choice in question.choices.all %}
+                <div class="form-check quiz-choice">
+                    <input class="form-check-input" type="radio"
+                           name="{{ question.id }}" value="{{ choice.id }}" id="choice{{ choice.id }}">
+                    <label class="form-check-label" for="choice{{ choice.id }}">{{ choice.text }}</label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-gradient fw-bold px-5 py-2">Terminer le quiz</button>
+        </div>
+    </form>
+
+</div>
+
+<style>
+.quiz-question-card {
+    border-radius: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.quiz-question-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.quiz-choice input:checked + label,
+.quiz-choice label:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+    border-radius: 8px;
+    padding: 6px 10px;
+    transition: background-color 0.2s;
+}
+.btn-gradient {
+    background: linear-gradient(90deg, #0d6efd, #6610f2);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+.btn-gradient:hover {
+    background: linear-gradient(90deg, #6610f2, #0d6efd);
+    transform: translateY(-2px);
+}
+.quiz-question-card p.fw-bold {
+    color: #0d6efd;
+    font-size: 1.1rem;
+}
+@media (max-width: 576px) {
+    .quiz-question-card {
+        padding: 10px;
+    }
+}
+</style>
+{% endblock %}

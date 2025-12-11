@@ -1,0 +1,94 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="book-detail fade-in p-4 rounded-4 shadow-soft">
+
+    <div class="d-flex flex-column flex-md-row align-items-center gap-4">
+
+        <!-- Couverture du livre -->
+        <div class="book-cover text-center">
+            {% if book.image %}
+                <img src="{{ book.image.url }}" alt="{{ book.title }}"
+                     class="img-fluid rounded shadow" style="max-width: 250px; width: 100%;">
+            {% else %}
+                <div class="no-cover p-5 bg-light rounded text-muted">
+                    Pas de couverture
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Infos du livre -->
+        <div class="book-info flex-grow-1">
+            <h2 class="book-title mb-3">{{ book.title }}</h2>
+            <p><strong>Auteur :</strong> {{ book.author }}</p>
+            <p><strong>Description :</strong> {{ book.description|default:"Pas de description" }}</p>
+            <p><strong>Catégorie :</strong> {{ book.category.name|default:"N/A" }}</p>
+            <p><strong>Copies disponibles :</strong> {{ book.available_copies }}</p>
+            <p><strong>ISBN :</strong> {{ book.isbn|default:"N/A" }}</p>
+
+            <!-- Bouton Emprunt -->
+            <div class="mt-3">
+                {% if user.is_authenticated %}
+                    {% if can_borrow %}
+                        <a class="btn btn-primary btn-lg rounded-pill px-4 hover-raise"
+                           href="{% url 'core:borrow_book' book.pk %}">
+                            📘 Emprunter ce livre
+                        </a>
+                    {% else %}
+                        <div class="alert alert-info">
+                            Vous avez déjà emprunté ce livre.  
+                            Veuillez attendre la fin de la période de prêt.
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-warning">
+                        Veuillez <a href="{% url 'login' %}" class="alert-link">vous connecter</a> pour emprunter ce livre.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.book-detail {
+    background-color: #fff;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.book-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.book-cover img {
+    border: 2px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.book-cover img:hover {
+    transform: scale(1.05);
+}
+
+.hover-raise {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hover-raise:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.no-cover {
+    width: 250px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Connexion — LibraryQuiz{% endblock %}
+
+{% block content %}
+
+<div class="login-container d-flex justify-content-center align-items-center">
+    <div class="login-card shadow-lg p-4">
+        
+        <div class="text-center mb-4">
+            <h2 class="fw-bold" style="color:#1e3a8a;">Connexion</h2>
+            <p class="text-muted">Accédez à votre espace LibraryQuiz</p>
+        </div>
+
+        {% if form.errors %}
+        <div class="alert alert-danger text-center fade-in">
+            Nom d’utilisateur ou mot de passe incorrect.
+        </div>
+        {% endif %}
+
+        <form method="post" class="fade-in">
+            {% csrf_token %}
+
+            <div class="form-group mb-3">
+                <label class="form-label fw-semibold">Nom d'utilisateur</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label fw-semibold">Mot de passe</label>
+                {{ form.password }}
+                <i class="bi bi-eye password-toggle"></i>
+            </div>
+
+            <button class="btn btn-primary w-100 py-2 fw-semibold" style="border-radius: 8px;">
+                Se connecter
+            </button>
+        </form>
+
+        <p class="mt-3 text-center">
+            Pas de compte ?  
+            <a href="{% url 'core:signup' %}" class="link-primary fw-semibold">
+                S'inscrire
+            </a>
+        </p>
+
+    </div>
+</div>
+
+<style>
+/* ---- Container full page ---- */
+.login-container {
+    min-height: 85vh;
+    background: linear-gradient(135deg, #e3eeff, #f9fcff);
+    animation: fadeInBg 0.8s ease-in-out;
+}
+
+/* ---- Card ---- */
+.login-card {
+    width: 380px;
+    background: #ffffff;
+    border-radius: 18px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    backdrop-filter: blur(6px);
+}
+
+.login-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+/* ---- Animation ---- */
+.fade-in {
+    animation: fadeIn 0.6s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeInBg {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ---- Inputs ---- */
+input {
+    border-radius: 8px !important;
+    padding: 10px 12px !important;
+    border: 1px solid #ced4da !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus {
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25) !important;
+}
+
+/* ---- Text ---- */
+h2 {
+    font-weight: 700;
+}
+
+</style>
+
+<script>
+document.querySelectorAll('.password-toggle').forEach(function(toggle) {
+    toggle.addEventListener('click', function() {
+        const input = this.previousElementSibling;
+        if (input.type === "password") {
+            input.type = "text";
+            this.classList.remove('bi-eye');
+            this.classList.add('bi-eye-slash');
+        } else {
+            input.type = "password";
+            this.classList.remove('bi-eye-slash');
+            this.classList.add('bi-eye');
+        }
+    });
+});
+</script>
+{% endblock %}

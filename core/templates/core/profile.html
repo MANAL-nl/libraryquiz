@@ -1,0 +1,144 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Profil — {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center mt-5">
+    <div class="card shadow-lg p-0" style="max-width: 600px; width: 100%; border-radius: 20px; overflow: hidden;">
+        
+        <!-- Header profil -->
+        <div class="bg-primary text-white text-center p-4 position-relative">
+            <h2 class="fw-bold">{{ user.username }}</h2>
+            <p class="mb-0">Bienvenue sur votre espace LibraryQuiz</p>
+        </div>
+
+        <!-- Corps de la carte -->
+        <div class="card-body">
+            
+            <!-- Points -->
+            <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded shadow-sm">
+                <div>
+                    <h5 class="fw-semibold mb-1">Points</h5>
+                    <p class="fs-4 fw-bold text-primary mb-0">{{ profile.points }}</p>
+                </div>
+                <i class="bi bi-star-fill text-warning fs-1"></i>
+            </div>
+
+            <!-- Badges -->
+            <div class="mb-4">
+                <h5 class="fw-semibold mb-2">Badges</h5>
+                {% if profile.badges %}
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for b in profile.badges %}
+                            {% if b == "Débutant Lecteur" %}
+                                <span class="badge badge-beginner fs-6 px-3 py-2">{{ b }}</span>
+                            {% elif b == "Lecteur Confirmé" %}
+                                <span class="badge badge-intermediate fs-6 px-3 py-2">{{ b }}</span>
+                            {% elif b == "Expert Reader" %}
+                                <span class="badge badge-expert fs-6 px-3 py-2">{{ b }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary fs-6 px-3 py-2">{{ b }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">Aucun badge pour le moment</p>
+                {% endif %}
+            </div>
+
+            <!-- Barre des niveaux -->
+            <div class="badge-levels d-flex justify-content-between align-items-center my-4">
+                {% with total_points=profile.points %}
+                <div class="level {% if total_points >= 0 %}achieved{% endif %}">Débutant</div>
+                <div class="level {% if total_points >= 50 %}achieved{% endif %}">Confirmé</div>
+                <div class="level {% if total_points >= 100 %}achieved{% endif %}">Expert</div>
+                {% endwith %}
+            </div>
+
+            <!-- Bouton historique -->
+            <div class="text-center">
+                <a href="{% url 'core:borrow_history' %}" class="btn btn-gradient btn-lg rounded-pill px-5 py-2 shadow-sm">
+                    Historique des emprunts
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Shadow hover carte */
+.card:hover {
+    transform: translateY(-3px);
+    transition: all 0.3s;
+}
+
+/* Badges colorés par niveau */
+.badge-beginner {
+    background-color: #28a745; /* vert */
+    color: #fff;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.badge-beginner:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.badge-intermediate {
+    background-color: #0d6efd; /* bleu */
+    color: #fff;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.badge-intermediate:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.badge-expert {
+    background-color: #6f42c1; /* violet */
+    color: #fff;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.badge-expert:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Bouton moderne */
+.btn-gradient {
+    background: linear-gradient(90deg, #0d6efd, #6610f2);
+    color: #fff;
+    border: none;
+    transition: all 0.3s;
+}
+.btn-gradient:hover {
+    background: linear-gradient(90deg, #6610f2, #0d6efd);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* Barre de niveaux */
+.badge-levels .level {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    border-radius: 10px;
+    background-color: #e9ecef;
+    color: #6c757d;
+    font-weight: 600;
+    margin: 0 5px;
+    transition: all 0.3s;
+}
+
+.badge-levels .level.achieved {
+    background: linear-gradient(90deg, #28a745, #0d6efd);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+</style>
+{% endblock %}

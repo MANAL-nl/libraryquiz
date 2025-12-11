@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2>Historique des emprunts</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Livre</th>
+            <th>Date d'emprunt</th>
+            <th>Retour prévu</th>
+            <th>Statut</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for loan in loans %}
+        <tr>
+            <td>{{ loan.book.title }}</td>
+            <td>{{ loan.borrowed_at|date:"d/m/Y H:i" }}</td>
+            <td>
+                {% if loan.due_date %}
+                    {{ loan.due_date|date:"d/m/Y H:i:s" }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+           <td>
+                {% if loan.returned %}
+                    <span class="badge bg-success">Retourné</span>
+                {% else %}
+                    <span class="badge bg-warning text-dark">En cours</span>
+                {% endif %}
+            </td>
+    
+
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">Aucun emprunt pour le moment.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

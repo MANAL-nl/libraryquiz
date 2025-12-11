@@ -1,0 +1,208 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Tableau de bord — LibraryQuiz{% endblock %}
+
+{% block content %}
+
+<style>
+body {
+    background: #f4f6f9 !important;
+}
+
+.section-title {
+    font-weight: 800;
+    font-size: 2rem;
+    color: #1a237e;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    border: none;
+    border-radius: 18px;
+    padding: 22px;
+    background: white;
+    transition: all 0.25s ease;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+}
+.stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 26px rgba(0,0,0,0.12);
+}
+
+.book-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    background: white;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.07);
+}
+.book-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.14);
+}
+
+.card-img-top {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.book-btn {
+    border-radius: 50px;
+    padding: 9px 20px;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.book-title {
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+.small-text {
+    font-size: 0.9rem;
+    color: #757575;
+}
+
+/* Badge dispo */
+.badge-dispo {
+    background: #4caf50;
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.badge-indispo {
+    background: #e53935;
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+/* ÉTIQUETTES DISPONIBILITÉ */
+.book-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 12px;
+    color: white;
+    z-index: 10;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+.book-badge.available {
+    background: #4caf50; /* Vert */
+}
+.book-badge.unavailable {
+    background: #e53935; /* Rouge */
+}
+.book-card {
+    position: relative; /* IMPORTANT pour badge */
+}
+
+</style>
+
+<div class="container mt-5">
+
+    <!-- Statistiques -->
+    <div class="row g-4 justify-content-center">
+
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h5 class="text-primary"><i class="bi bi-star-fill"></i> Points</h5>
+                <p class="display-5 fw-bold">{{ profile.points }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h5 class="text-primary"><i class="bi bi-book-half"></i> Livres empruntés</h5>
+                <p class="display-5 fw-bold">{{ loans.count }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card text-center">
+                <h5 class="text-primary"><i class="bi bi-award"></i> Badges</h5>
+                <p class="display-6">{{ profile.badges|length }}</p>
+                {% for badge in profile.badges %}
+                    <span class="badge bg-info text-dark m-1">{{ badge }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Tous les livres -->
+    <h3 class="section-title mt-5">📚 Tous les livres de la bibliothèque</h3>
+
+    {% if all_books %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+            {% for book in all_books %}
+            <div class="col">
+                <div class="book-card h-100">
+
+                    {% if book.available_copies > 0 %}
+    <span class="book-badge available">Disponible</span>
+{% else %}
+    <span class="book-badge unavailable">Indisponible</span>
+{% endif %}
+
+
+
+                    {% if book.image %}
+                        <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}" style="height: 230px; object-fit: cover;">
+                    {% else %}
+                        <div class="d-flex align-items-center justify-content-center bg-light" style="height: 230px;">
+                            <span class="text-muted">Pas d’image</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="p-3 d-flex flex-column">
+
+                        <h5 class="book-title">{{ book.title }}</h5>
+                        <p class="small-text mb-2">{{ book.author }}</p>
+
+                        <a href="{% url 'core:book_detail' book.id %}"
+                           class="btn btn-primary book-btn mt-auto">
+                           Voir le livre
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    {% else %}
+        <p class="text-center text-muted">Aucun livre disponible.</p>
+    {% endif %}
+
+</div>
+
+<!-- ChartJS Graph (si tu veux le garder) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const monthly_loans = JSON.parse('{{ monthly_loans|escapejs }}');
+const monthly_quiz = JSON.parse('{{ monthly_quiz|escapejs }}');
+
+const ctx = document.getElementById('activityChart')?.getContext('2d');
+if (ctx) {
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+            datasets: [
+                { label: 'Emprunts', data: monthly_loans },
+                { label: 'Quiz', data: monthly_quiz }
+            ]
+        }
+    });
+}
+</script>
+
+{% endblock %}

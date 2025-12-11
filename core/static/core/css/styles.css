@@ -1,0 +1,426 @@
+/* ===== Global ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f6fa;
+    padding-bottom: 60px;
+    color: #333;
+}
+
+h1 {
+    color: #0d6efd;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1.1rem;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* ===== Cards ===== */
+.card {
+    min-height: 180px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #555;
+    font-size: 1rem;
+}
+
+/* ===== Buttons ===== */
+.btn-primary {
+    background-color: #0d6efd;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+}
+
+/* ===== Messages ===== */
+.alert {
+    border-radius: 8px;
+}
+
+/* ===== Footer space ===== */
+footer {
+    margin-top: 40px;
+    padding: 20px 0;
+    background-color: #0d6efd;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+}
+
+/* Fond moderne */
+.page-bg {
+    background: linear-gradient(135deg, #f5f7fa, #e4ebf3);
+    min-height: 100vh;
+}
+
+/* Navbar moderne */
+.nav-modern {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* Liens navbar */
+.nav-link-modern {
+    position: relative;
+    transition: 0.2s ease-in-out;
+}
+
+.nav-link-modern:hover {
+    color: #dbeafe !important;
+    transform: translateY(-2px);
+}
+
+/* Fade-in global */
+.fade-in {
+    animation: fadeIn 0.6s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* Carte principale du livre */
+.book-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 900px;
+    margin: auto;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+/* Style du titre */
+.book-title {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #1e3a8a;
+}
+
+/* Description du livre */
+.book-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #4b5563;
+}
+
+/* Effet d'ombre douce premium */
+.shadow-soft {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+}
+
+/* Effet bouton premium */
+.hover-raise {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-raise:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+/* Animation fade-in */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.6s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* Conteneur principal */
+.catalog-container {
+    max-width: 900px;
+    margin: auto;
+}
+
+/* Titre stylé */
+.catalog-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1e3a8a;
+}
+
+/* Barre de recherche moderne */
+.search-bar {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.search-input {
+    padding: 12px 18px;
+    font-size: 1.05rem;
+    border: none !important;
+}
+
+.search-input:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.search-button {
+    border: none !important;
+    font-weight: 600;
+}
+
+/* Liste premium */
+.book-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Élément de livre stylé */
+.book-item {
+    display: flex;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 16px 20px;
+    transition: all 0.22s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.book-item:hover {
+    transform: translateY(-3px);
+    background: #f8fafc;
+    box-shadow: 0 12px 22px rgba(0,0,0,0.07);
+}
+
+/* Badge plus moderne */
+.copies-badge {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 12px;
+}
+
+/* Titre dans la liste */
+.book-title-item {
+    color: #1e40af;
+    font-size: 1.1rem;
+}
+
+/* Ombre douce réutilisable */
+.shadow-soft {
+    box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+}
+
+/* Animation fade-in */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+/* ------------------ HERO SECTION ------------------ */
+.hero-section {
+    background: linear-gradient(135deg, #e0e7ff, #f0f9ff);
+    border-radius: 22px;
+    text-align: center;
+    padding: 60px 30px;
+}
+
+.hero-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #1e3a8a;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #2563eb, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #475569;
+}
+
+/* ------------------ TITRES DE SECTION ------------------ */
+.section-title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #1e40af;
+}
+
+/* ------------------ CARTES LIVRES ------------------ */
+.book-card {
+    border-radius: 18px;
+    transition: all 0.25s ease;
+    background: #ffffff;
+}
+
+.book-card:hover {
+    background: #f8fafc;
+}
+
+.book-title {
+    font-weight: 600;
+    color: #1e3a8a;
+}
+
+/* ------------------ EFFETS VISUELS PREMIUM ------------------ */
+.hover-raise {
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.hover-raise:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(0,0,0,0.12);
+}
+
+.shadow-soft {
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+/* Fade-in animation */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+
+
+
+/* ------------------------------------------------------ */
+/* WRAPPER GLOBAL                                         */
+/* ------------------------------------------------------ */
+.register-wrapper {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ------------------------------------------------------ */
+/* CARTE CRISTAL (NEO-MODERNE)                            */
+/* ------------------------------------------------------ */
+.register-card {
+    width: 420px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(16px);
+    border-radius: 20px;
+    padding: 40px 32px;
+    animation: fadeIn 0.7s ease forwards;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* ------------------------------------------------------ */
+/* TITRE                                                  */
+/* ------------------------------------------------------ */
+.register-title {
+    font-weight: 800;
+    color: #1e3a8a;
+    font-size: 2rem;
+}
+
+/* ------------------------------------------------------ */
+/* FORMULAIRE                                             */
+/* ------------------------------------------------------ */
+.register-form label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #334155;
+    display: block;
+    font-size: 0.97rem;
+}
+
+.register-form input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.register-form input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59,130,246,0.15);
+    outline: none;
+}
+
+/* ------------------------------------------------------ */
+/* BOUTON HOVER                                           */
+/* ------------------------------------------------------ */
+.hover-raise {
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.hover-raise:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+/* ------------------------------------------------------ */
+/* ANIMATION FADE-IN                                      */
+/* ------------------------------------------------------ */
+.fade-in {
+    opacity: 0;
+    animation: fadeMain 0.6s ease forwards;
+}
+
+@keyframes fadeMain {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------ */
+/* OMBRE DOUCE                                             */
+/* ------------------------------------------------------ */
+.shadow-soft {
+    box-shadow: 0 10px 24px rgba(0,0,0,0.07);
+}
