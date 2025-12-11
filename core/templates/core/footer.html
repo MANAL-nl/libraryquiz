@@ -1,0 +1,124 @@
+<!-- Footer stylé et optimisé -->
+<footer class="library-footer">
+  <div class="container py-4">
+    <div class="row gy-4">
+
+      <!-- À propos -->
+      <div class="col-md-6">
+        <h5 class="footer-title mb-3">À propos</h5>
+        <p class="footer-text small mb-3">
+          Une application innovante pour gérer votre bibliothèque, participer à des quiz et gagner des récompenses.
+        </p>
+        <div class="d-flex gap-3">
+          <a href="#" class="footer-icon" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#" class="footer-icon" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#" class="footer-icon" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#" class="footer-icon" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Contact neutre -->
+<div class="col-md-6">
+  <h5 class="footer-title mb-3">Contact</h5>
+  <p class="footer-text small mb-2"><i class="fas fa-envelope me-2"></i>contact@example.com</p>
+  <p class="footer-text small mb-2"><i class="fas fa-phone me-2"></i>+33 234 567 8900</p>
+  <p class="footer-text small mb-0"><i class="fas fa-map-marker-alt me-2"></i>Nanterre </p>
+</div>
+
+
+    </div>
+
+    <hr class="footer-separator my-4">
+
+    <div class="text-center small footer-bottom">
+      © {{ current_year }} Bibliothèque – Tous droits réservés.
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== STYLES FOOTER ==================== -->
+<style>
+/* Footer général */
+.library-footer {
+    background: linear-gradient(135deg, #0d6efd, #1052a3, #1e3c72, #2a5298);
+    background-size: 400% 400%; /* Permet le mouvement fluide */
+    animation: gradientShift 15s ease infinite; /* animation fluide */
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin-top: 0; /* Supprime les marges inutiles */
+}
+
+/* Animation du dégradé */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+/* Titres */
+.footer-title {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #ffc107;
+    position: relative;
+}
+.footer-title::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: #ffc107;
+    margin-top: 5px;
+    border-radius: 2px;
+}
+
+/* Textes */
+.footer-text {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Icônes sociales */
+.footer-icon {
+    display: inline-block;
+    color: #fff;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+.footer-icon:hover {
+    color: #ffc107;
+    transform: translateY(-3px) scale(1.2);
+    text-shadow: 0 0 8px #ffc107;
+}
+
+/* Séparateur */
+.footer-separator {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Bas du footer */
+.footer-bottom {
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.3px;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .library-footer .d-flex {
+        justify-content: flex-start;
+    }
+}
+</style>
+
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

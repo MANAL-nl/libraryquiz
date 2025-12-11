@@ -10,3 +10,20 @@ pillow==10.3.0
 six==1.16.0
 sqlparse==0.4.4
 tzdata==2024.1
+
+
+
+import os
+import sys
+
+# ----- Chemin de ton projet -----
+path = '/home/bouhrichmanal/libraryquiz'
+if path not in sys.path:
+    sys.path.append(path)
+
+# ----- Réglage Django -----
+os.environ['DJANGO_SETTINGS_MODULE'] = 'libraryquiz.settings'
+
+# ----- Lancement de Django -----
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
