@@ -1,0 +1,347 @@
+{% extends "core/base.html" %}
+{% block content %}
+
+<div class="chatbot-container">
+
+    <div class="chat-header">
+        <h2>🤖 LibraryBot – Assistance intelligente</h2>
+        <p class="subtitle">
+            Posez vos questions sur LibraryQuiz : livres, quiz, badges, emprunts, navigation…
+        </p>
+    </div>
+
+    <!-- FENÊTRE DE DISCUSSION -->
+    <div id="chat-window" class="chat-window"></div>
+
+    <!-- INDICATEUR DE SAISIE (typing) -->
+    <div id="typing-indicator" class="typing hidden">
+        LibraryBot écrit...
+    </div>
+
+    <!-- ZONE DE SAISIE -->
+    <div class="chat-input-area">
+        <input type="text" id="userInput" placeholder="Écrivez votre question…"
+               onkeypress="if(event.key==='Enter'){sendMessage()}">
+
+        <button onclick="sendMessage()">Envoyer</button>
+    </div>
+
+</div>
+
+<style>
+/* --------- CONTAINER PRINCIPAL --------- */
+.chatbot-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
+    animation: fadeIn 0.6s ease;
+}
+
+/* --------- HEADER --------- */
+.chat-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.chat-header h2 {
+    font-weight: 800;
+    color: #0d6efd;
+}
+.subtitle {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* --------- FENÊTRE DE CHAT --------- */
+.chat-window {
+    height: 450px;
+    overflow-y: auto;
+    padding: 15px;
+    border-radius: 12px;
+    background: #f8f9fa;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* --------- MESSAGES --------- */
+.message {
+    margin-bottom: 18px;
+    display: flex;
+    animation: fadeInUp 0.4s ease;
+}
+
+.user-msg {
+    justify-content: flex-end;
+}
+
+.bot-msg {
+    justify-content: flex-start;
+}
+
+.msg-box {
+    max-width: 75%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.user-msg .msg-box {
+    background: #0d6efd;
+    color: white;
+    border-bottom-right-radius: 3px;
+}
+
+.bot-msg .msg-box {
+    background: white;
+    border: 1px solid #ddd;
+    border-bottom-left-radius: 3px;
+}
+
+/* --------- INPUT AREA --------- */
+.chat-input-area {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.chat-input-area button {
+    background: #ffc107;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.chat-input-area button:hover {
+    background: #e0aa06;
+}
+
+/* --------- INDICATEUR "LibraryBot écrit…" --------- */
+.typing {
+    margin-top: 10px;
+    font-style: italic;
+    color: #777;
+}
+.hidden {
+    display: none;
+}
+
+/* --------- ANIMATIONS --------- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script>
+
+
+/* ----------------------------------------
+   ENVOI DU MESSAGE UTILISATEUR
+---------------------------------------- */
+function sendMessage() {
+    let input = document.getElementById("userInput");
+    let text = input.value.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    askOpenAI(text).then(finalMsg => {
+        removeTypingBubble();
+        addMessage(finalMsg, "bot");
+    });
+}
+
+/* ----------------------------------------
+   AFFICHAGE D’UN MESSAGE
+---------------------------------------- */
+function addMessage(text, sender) {
+    const chat = document.getElementById("chat-window");
+    const div = document.createElement("div");
+
+    div.className = sender === "user" ? "message user-msg" : "message bot-msg";
+
+    div.innerHTML = `
+        <div class="msg-box">${text.replace(/\n/g, "<br>")}</div>
+    `;
+
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+/* ----------------------------------------
+   MESSAGE TYPING (stream)
+---------------------------------------- */
+function showTypingBubble() {
+    const chat = document.getElementById("chat-window");
+
+    let bubble = document.querySelector(".typing-bubble");
+    if (!bubble) {
+        bubble = document.createElement("div");
+        bubble.className = "message bot-msg typing-bubble";
+        bubble.innerHTML = `<div class="msg-box"><em>LibraryBot écrit…</em></div>`;
+        chat.appendChild(bubble);
+    }
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function updateTypingContent(text) {
+    let bubble = document.querySelector(".typing-bubble");
+    if (bubble) {
+        bubble.querySelector(".msg-box").innerHTML = text.replace(/\n/g, "<br>");
+    }
+}
+
+function removeTypingBubble() {
+    const bubble = document.querySelector(".typing-bubble");
+    if (bubble) bubble.remove();
+}
+
+/* ----------------------------------------
+   PROMPT — ULTRA COMPLET
+---------------------------------------- */
+function buildPrompt(userMsg) {
+return `
+Tu es **LibraryBot**, l’assistant officiel du site **LibraryQuiz**.
+
+🎯 **Ton rôle :**
+Répondre UNIQUEMENT sur :
+- les livres réels
+- les quiz
+- les badges
+- les emprunts
+- la navigation du site LibraryQuiz
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+📚 **RÈGLE 1 — LIVRES**
+Si le livre existe dans la vraie vie :
+✔️ Fais un résumé clair et court.  
+✔️ Génère un quiz de **5 questions**, format EXACT :
+
+1. Question…
+   a)
+   b)
+   c)
+👉 Réponse : (a/b/c)
+
+Si le livre n’existe pas :
+❌ Répondre :  
+"Ce livre n'existe pas dans la littérature connue. Merci de vérifier le titre."
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+🏅 **RÈGLE 2 — BADGES**
+- Débutant : moins de 50 pts  
+- Confirmé : 50 pts ou plus  
+- Expert : 100 pts ou plus  
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+📘 **RÈGLE 3 — EMPRUNTS**
+Durée d'emprunt : **14 jours**.
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+🧭 **RÈGLE 4 — NAVIGATION**
+Tu peux expliquer :
+- comment faire un quiz
+- comment voir ses badges
+- comment emprunter un livre
+- comment accéder au catalogue
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+🚫 **RÈGLE 5 — HORS SUJET**
+Si l’utilisateur pose une question hors :
+livres / quiz / badges / emprunts / navigation,
+tu réponds :
+
+"Je suis désolé, je suis un assistant spécialisé pour LibraryQuiz. Posez-moi des questions sur les livres, quiz, badges, emprunts ou la navigation du site."
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+Voici la question de l'utilisateur :
+"${userMsg}"
+`;
+}
+
+/* ----------------------------------------
+   REQUÊTE OPENAI (STREAMING)
+---------------------------------------- */
+async function askOpenAI(msg) {
+
+    const prompt = buildPrompt(msg);
+    showTypingBubble();
+
+    try {
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + apiKey
+            },
+            body: JSON.stringify({
+                model: "gpt-4o-mini",
+                messages: [{ role: "user", content: prompt }],
+                stream: true
+            })
+        });
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        let completeMessage = "";
+
+        while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value);
+            const lines = chunk.split("\n");
+
+            for (const line of lines) {
+                if (!line.startsWith("data: ")) continue;
+
+                const json = line.replace("data: ", "").trim();
+                if (json === "[DONE]") continue;
+
+                try {
+                    const parsed = JSON.parse(json);
+                    const delta = parsed?.choices?.[0]?.delta?.content;
+                    if (delta) {
+                        completeMessage += delta;
+                        updateTypingContent(completeMessage);
+                    }
+                } catch {}
+            }
+        }
+
+        return completeMessage || "Aucune réponse générée.";
+
+    } catch (error) {
+        return "Erreur : " + error.message;
+    }
+}
+
+</script>
+
+
+{% endblock %}

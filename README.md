@@ -1,3 +1,13 @@
+
+✅ Ce fichier contient :  
+1. La **présentation complète du projet**, ses fonctionnalités et technologies.  
+2. Les **instructions d’installation et d’exécution**.  
+3. La **structure du projet**.  
+4. Le **fonctionnement des récompenses**.  
+5. L’**historique Git que tu as fourni**.
+
+---
+
 📚 Application de Gestion de Bibliothèque avec Quiz et Récompenses
 🚀 Présentation du projet
 
@@ -113,3 +123,24 @@ Niveau atteint Badge automatiquement attribué
 
 👤 Auteur
 Projet réalisé dans le cadre d'un développement d’application web éducative pour la gestion d’une bibliothèque.
+
+
+💻 Historique Git:
+# Activation de l'environnement virtuel
+source /C/Users/hp/Videos/libraryquiz/.venv/Scripts/activate
+
+# Ajouter tous les fichiers modifiés
+git add .
+
+# Premier commit
+git commit -m "update"
+git push
+
+# Deuxième commit
+git add .
+git commit -m "update1"
+git push
+
+# Récupération des dernières modifications du dépôt distant
+git fetch
+git reset --hard origin/master

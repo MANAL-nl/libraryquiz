@@ -1,38 +1,53 @@
-<!-- Footer stylé et optimisé -->
+<!-- FOOTER PREMIUM REORGANISÉ -->
 <footer class="library-footer">
-  <div class="container py-4">
-    <div class="row gy-4">
+  <div class="container py-5">
 
-      <!-- À propos -->
-      <div class="col-md-6">
+    <div class="row gy-5 align-items-start">
+
+      <!-- À PROPOS -->
+      <div class="col-md-4">
         <h5 class="footer-title mb-3">À propos</h5>
+
         <p class="footer-text small mb-3">
           Une application innovante pour gérer votre bibliothèque, participer à des quiz et gagner des récompenses.
         </p>
-        <div class="d-flex gap-3">
-          <a href="#" class="footer-icon" aria-label="Facebook">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#" class="footer-icon" aria-label="Twitter">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#" class="footer-icon" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="#" class="footer-icon" aria-label="LinkedIn">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-        </div>
+
+        <p class="footer-text small mb-3">
+          <strong>Application élaborée par :</strong><br>
+          JELTHI Hajar, SAAD Youmna, BOUHRICH Manal
+        </p>
       </div>
 
-      <!-- Contact neutre -->
-<div class="col-md-6">
-  <h5 class="footer-title mb-3">Contact</h5>
-  <p class="footer-text small mb-2"><i class="fas fa-envelope me-2"></i>contact@example.com</p>
-  <p class="footer-text small mb-2"><i class="fas fa-phone me-2"></i>+33 234 567 8900</p>
-  <p class="footer-text small mb-0"><i class="fas fa-map-marker-alt me-2"></i>Nanterre </p>
-</div>
+      <!-- CONTACT -->
+      <div class="col-md-4 text-md-center">
+        <h5 class="footer-title mb-3">Contact</h5>
+        <p class="footer-text small mb-2">
+          <i class="fas fa-envelope me-2"></i>45010330@parisnanterre.fr
+        </p>
+        <p class="footer-text small mb-2">
+          <i class="fas fa-phone me-2"></i>+33 234 567 8900
+        </p>
+        <p class="footer-text small mb-0">
+          <i class="fas fa-map-marker-alt me-2"></i>Nanterre
+        </p>
+      </div>
 
+      <!-- CHATBOT + ICONES -->
+      <div class="col-md-4 text-md-end text-center">
+
+        <a href="/chatbot/" class="footer-chatbot-btn mb-4 d-inline-block">
+          🤖 Besoin d'aide ? Ouvrir le chatbot
+        </a>
+
+        <!-- Icônes sociales en BAS -->
+        <div class="footer-social d-flex justify-content-center mt-4">
+          <a href="#" class="footer-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="footer-icon"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="footer-icon"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="footer-icon"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+
+      </div>
 
     </div>
 
@@ -41,44 +56,40 @@
     <div class="text-center small footer-bottom">
       © {{ current_year }} Bibliothèque – Tous droits réservés.
     </div>
+
   </div>
 </footer>
 
-<!-- ==================== STYLES FOOTER ==================== -->
+
+<!-- =================== STYLE LOCAL FOOTER =================== -->
 <style>
-/* Footer général */
 .library-footer {
     background: linear-gradient(135deg, #0d6efd, #1052a3, #1e3c72, #2a5298);
-    background-size: 400% 400%; /* Permet le mouvement fluide */
-    animation: gradientShift 15s ease infinite; /* animation fluide */
-    color: #fff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    margin-top: 0; /* Supprime les marges inutiles */
+    background-size: 400% 400%;
+    animation: gradientShiftFooter 14s ease infinite;
+    color: white;
 }
 
-/* Animation du dégradé */
-@keyframes gradientShift {
+/* Animation */
+@keyframes gradientShiftFooter {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
 /* Titres */
 .footer-title {
-    font-weight: 700;
-    letter-spacing: 0.5px;
     text-transform: uppercase;
     color: #ffc107;
-    position: relative;
+    font-weight: 700;
 }
 .footer-title::after {
-    content: '';
+    content: "";
     display: block;
-    width: 40px;
-    height: 2px;
+    width: 45px;
+    height: 3px;
     background: #ffc107;
-    margin-top: 5px;
+    margin-top: 6px;
     border-radius: 2px;
 }
 
@@ -89,36 +100,55 @@
 
 /* Icônes sociales */
 .footer-icon {
-    display: inline-block;
-    color: #fff;
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-}
-.footer-icon:hover {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 193, 7, 0.15);
+    border: 1px solid rgba(255, 193, 7, 0.35);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #ffc107;
-    transform: translateY(-3px) scale(1.2);
-    text-shadow: 0 0 8px #ffc107;
+    font-size: 1.1rem;
+    transition: 0.3s ease;
 }
 
-/* Séparateur */
+.footer-icon:hover {
+    background: #ffc107;
+    color: #0d6efd;
+    transform: translateY(-3px) scale(1.15);
+    box-shadow: 0 0 10px #ffc107;
+}
+
+/* Bouton chatbot */
+.footer-chatbot-btn {
+    background: #ffc107;
+    color: #000;
+    padding: 12px 26px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.05rem;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 14px rgba(255, 193, 7, 0.35);
+}
+.footer-chatbot-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(255, 193, 7, 0.45);
+}
+
+/* Footer bottom */
 .footer-separator {
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
 }
-
-/* Bas du footer */
 .footer-bottom {
-    color: rgba(255, 255, 255, 0.7);
-    letter-spacing: 0.3px;
-    font-weight: 500;
+    color: rgba(255, 255, 255, 0.75);
+}
+.footer-social {
+    gap: 15px !important;  
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .library-footer .d-flex {
-        justify-content: flex-start;
-    }
-}
 </style>
 
-<!-- Font Awesome CDN -->
+<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

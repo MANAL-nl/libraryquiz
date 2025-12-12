@@ -220,3 +220,9 @@ def take_quiz(request, quiz_id):
         'quiz': quiz,
         'already_passed': already_passed
     })
+
+
+# ---------------- CHATBOT VIEW ---------------- #
+
+def chatbot_view(request):
+    return render(request, 'core/chatbot.html')
